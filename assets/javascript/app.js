@@ -40,7 +40,7 @@ $(document).ready(function() {
    q5: {
     txt: "Are bananas veggies?", 
     answers: ["mmmm","yes","no","elaphant"],
- 		correct: "yes",
+ 		correct: "no",
     name: "q5",
     ind: 4
  	  }
@@ -64,17 +64,18 @@ $(document).ready(function() {
 
   function countDown () {
     timeleft--; //decrements by 1
-    $(".timer-content").html("<h2>Time left: " + timeleft + "</h2>");
+    $(".timer-content").html("<h2>Time left: " + timeleft + " Seconds</h2>");
     if (timeleft === 0) {
       stop();
     }
   };
 
+  //ends game, stops timer, initiates grading
   function stop () {
     clearInterval(intervalId);
     $('.question-content').hide();
     $('.score-button').hide();
-    $('.timer-content').hide();
+    $('.timer-content').replaceWith($("<h2>All Done!</h2>"));
     gradeGame();
   };
 
@@ -94,6 +95,7 @@ $(document).ready(function() {
     $('.score-button').html($('<div class="text-center"><a class="btn btn-primary btn-lg end-game-btn" href="#" role="button">Score Answers</a></div>'));
     };
 
+  //grades the player's answers
   function gradeGame(){
     for (var x = 1; x <= questionsArr.length; x++){
       var string = 'q' + x;
@@ -111,6 +113,7 @@ $(document).ready(function() {
     showScore();
   };
 
+  //displays player's final score on the page
   function showScore(){
     $(".game-main-section").append($('<h2>Correct Answers: ' + correctAnswers + '</h2>'));
     $(".game-main-section").append($('<h2>Wrong Answers: ' + wrongAnswers + '</h2>'));
@@ -138,8 +141,5 @@ $(document).ready(function() {
       stop();
     });
   }) //end of on click
-
-
-    
 
 }); //end of application

@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
 	//variables/questions
-	var timeleft = 30; //iniital time value
+	var count = -1;
+  var timeleft = 20; //inital time value
 	var intervalId;
   var correctAnswers = 0;
   var wrongAnswers = 0;
@@ -70,30 +71,55 @@ $(document).ready(function() {
     }
   };
 
-  //ends game, stops timer, initiates grading
-  function stop () {
+  //ends game, stops timer, initiates grading 
+  function stop() {
     clearInterval(intervalId);
-    $('.question-content').hide();
-    $('.score-button').hide();
-    $('.timer-content').replaceWith($("<h2>All Done!</h2>"));
-    gradeGame();
+    if (count +1 < questionsArr.length) {
+      showAnswer();
+      timeleft = 20;
+    }
+    else {
+      gradeGame();
+    }
   };
 
 	//populating the page w/ questions
-	function populate(){
-		for (var x = 0; x < questionsArr.length; x++){
-      var thisClass = questionsArr[x].name;
-      var questionsText = questionsArr[x].answers;
+	function showQuestion(){
+		if (count < questionsArr.length){
+      count++;
+      var thisClass = questionsArr[count].name;
       var newDiv = $('<div>');
-      newDiv.html('<h3>' + questionsArr[x].txt + '</h3>').addClass(thisClass).appendTo('.question-content');
+      newDiv.html('<h3>' + questionsArr[count].txt + '</h3>').addClass(thisClass).appendTo('.question-content');
+      populateQuestions(newDiv);
+		}
+    else {
+      stop();
+    };
+  };
+
+  function populateQuestions(val){
+    //adds questions
+      var questionsText = questionsArr[count].answers;
       $.each(questionsText , function (index, value){
         var newButton = $('<button type="submit" value="' + value + '"></button>');
         newButton.text(value).addClass('btn btn-default game-btn');
-        $(newDiv).append(newButton);
+        $(val).append(newButton);
       });
-		};
-    $('.score-button').html($('<div class="text-center"><a class="btn btn-primary btn-lg end-game-btn" href="#" role="button">Score Answers</a></div>'));
-    };
+      $(".game-btn").on("click", function(){
+        var btnValue = this.value;
+        var parent = $(this).parent();
+        var parentClass = parent.prop('className');
+        console.log("btnValue: " + btnValue);
+        console.log("parentClass: " + parentClass);
+        userResponse[parentClass] = btnValue;
+        stop();
+    });
+  };
+
+  function showAnswer(){
+    $('.question-content').html('<div class="answer-text">Correct answer is: ' + questionsArr[count].correct + '</div>');
+    setTimeout(showNext, 3000);
+  }
 
   //grades the player's answers
   function gradeGame(){
@@ -113,33 +139,34 @@ $(document).ready(function() {
     showScore();
   };
 
+  function showNext (){
+    $('.answer-text').empty();
+    start();
+    showQuestion();
+  };
+
   //displays player's final score on the page
   function showScore(){
+    $('.question-content').empty();
+    var newSection = $('div');
     $(".game-main-section").append($('<h2>Correct Answers: ' + correctAnswers + '</h2>'));
     $(".game-main-section").append($('<h2>Wrong Answers: ' + wrongAnswers + '</h2>'));
     $(".game-main-section").append($('<h2>Unanswered Questions: ' + unAnsweredQuestions + '</h2>'));
+    $(".game-main-section").append($('<button class="btn btn-primary btn-lg restart-game">Restart Game</button>'));
+    $('.restart-game').on("click", restartGame);
   };
+
+  function restartGame(){
+    console.log("Hi!")
+  }
 
 	//onclick - starts game
   $(".start-game-btn").on("click", function(){
    	$(".start-game-btn").replaceWith('<div class="timer-content text-center"><h2>Time left: ' + timeleft + '</h2></div>'); //hides button
-  	start();
-    populate();
+  	showNext ();
 
     //the following stores a value in the userResponse object for scoring at end of game
-    $(".game-btn").on("click", function(){
-        var btnValue = this.value;
-        var parent = $(this).parent();
-        var parentClass = parent.prop('className');
-        userResponse[parentClass] = btnValue;
-        parent.children('.btn').css( "background-color", "#464545");
-        $(this).css("background-color", "#375a7f");
-    });
 
-    //this allows users to end the game early if they click the Score Answers button
-    $('.end-game-btn').on("click", function(){
-      stop();
-    });
   }) //end of on click
 
 }); //end of application

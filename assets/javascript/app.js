@@ -64,17 +64,21 @@ $(document).ready(function() {
     };
 
   function countDown () {
+    showTimer();
     timeleft--; //decrements by 1
-    $(".timer-content").html("<h2>Time left: " + timeleft + " Seconds</h2>");
     if (timeleft === 0) {
       stop();
     }
   };
 
+  function showTimer(){
+    $(".timer-content").html("<h2>Time left: " + timeleft + " Seconds</h2>");
+  };
   //ends game, stops timer, initiates grading 
   function stop() {
     clearInterval(intervalId);
     if (count +1 < questionsArr.length) {
+      $(".timer-content").html("<h2></h2>");
       showAnswer();
       timeleft = 20;
     }
@@ -87,6 +91,7 @@ $(document).ready(function() {
 	function showQuestion(){
 		if (count < questionsArr.length){
       count++;
+      showTimer();
       var thisClass = questionsArr[count].name;
       var newDiv = $('<div>');
       newDiv.html('<h3>' + questionsArr[count].txt + '</h3>').addClass(thisClass).appendTo('.question-content');
@@ -149,20 +154,33 @@ $(document).ready(function() {
   function showScore(){
     $('.question-content').empty();
     var newSection = $('div');
-    $(".game-main-section").append($('<h2>Correct Answers: ' + correctAnswers + '</h2>'));
-    $(".game-main-section").append($('<h2>Wrong Answers: ' + wrongAnswers + '</h2>'));
-    $(".game-main-section").append($('<h2>Unanswered Questions: ' + unAnsweredQuestions + '</h2>'));
-    $(".game-main-section").append($('<button class="btn btn-primary btn-lg restart-game">Restart Game</button>'));
+    $(".score-button").append($('<h2>Correct Answers: ' + correctAnswers + '</h2>'));
+    $(".score-button").append($('<h2>Wrong Answers: ' + wrongAnswers + '</h2>'));
+    $(".score-button").append($('<h2>Unanswered Questions: ' + unAnsweredQuestions + '</h2>'));
+    $(".score-button").append($('<button class="btn btn-primary btn-lg restart-game">Restart Game</button>'));
     $('.restart-game').on("click", restartGame);
   };
 
   function restartGame(){
-    console.log("Hi!")
+    $(".score-button").empty();
+    count = -1;
+    timeleft = 20; //inital time value
+    correctAnswers = 0;
+    wrongAnswers = 0;
+    unAnsweredQuestions = 0;
+    userResponse = {
+      q1: 'unanswered', 
+      q2: 'unanswered', 
+      q3: 'unanswered', 
+      q4: 'unanswered', 
+      q5: 'unanswered'
+    };
+    showNext ();
   }
 
 	//onclick - starts game
   $(".start-game-btn").on("click", function(){
-   	$(".start-game-btn").replaceWith('<div class="timer-content text-center"><h2>Time left: ' + timeleft + '</h2></div>'); //hides button
+   	$(".start-game-btn").replaceWith('<div class="timer-content text-center"><h2>Time left: ' + timeleft + ' Seconds</h2></div>'); //hides button
   	showNext ();
 
     //the following stores a value in the userResponse object for scoring at end of game

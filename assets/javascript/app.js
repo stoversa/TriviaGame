@@ -83,7 +83,7 @@ $(document).ready(function() {
       timeleft = 20;
     }
     else {
-      gradeGame();
+      showAnswerFinal();
     }
   };
 
@@ -122,6 +122,16 @@ $(document).ready(function() {
   };
 
   function showAnswer(){
+    showAnswerPart()
+    setTimeout(showNext, 3000);
+  }
+
+  function showAnswerFinal(){
+    showAnswerPart()
+    setTimeout(gradeGame, 3000);
+  }
+
+  function showAnswerPart(){
     var answerStatus;
     var tempString = 'q' + (count + 1);
     if (userResponse[tempString] === questionsArr[count].correct){
@@ -134,8 +144,7 @@ $(document).ready(function() {
       answerStatus = "Incorrect! The correct answer is: ";
     };
     $('.question-content').html('<div class="answer-text"><h2>'+ answerStatus + questionsArr[count].correct + '</h2></div>');
-    $('.answer-text').append('<div><img src="' + questionsArr[count].img + '" height=400 width=600/></div>')
-    setTimeout(showNext, 3000);
+    $('.answer-text').append('<div><img src="' + questionsArr[count].img + '" height=400 width=600/></div>');
   }
 
   //grades the player's answers

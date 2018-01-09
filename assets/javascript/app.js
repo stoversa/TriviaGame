@@ -156,7 +156,6 @@ $(document).ready(function() {
       }
       else if (userResponse[string] === 'unanswered'){
         unAnsweredQuestions++;
-        wrongAnswers++;
       }
       else {
         wrongAnswers++;

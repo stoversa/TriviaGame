@@ -15,35 +15,35 @@ $(document).ready(function() {
     answers: ["orange","red","blue","magenta"],
    	correct: "blue",
     name: "q1",
-    img: "https://cdn.pixabay.com/photo/2018/01/04/17/14/field-of-rapeseeds-3061165_960_720.jpg"
+    img: "./assets/images/sky.jpg"
    },
    q2: {
     txt: "How many days are in a year?",
     answers: ["123","444","365","333"],
  		correct: "365",
     name: "q2",
-    img: "https://cdn.pixabay.com/photo/2017/12/28/17/58/calendar-3045826_1280.jpg"
+    img: "./assets/images/calendar.jpg"
   },
    q3: {
     txt: "How many ounces are in a pound?", 
     answers: ["8","3","1","16"],
  		correct: "16",
     name: "q3",
-    img: "https://cdn.pixabay.com/photo/2014/07/28/11/18/scale-403585_960_720.jpg"
+    img: "./assets/images/scale.jpg"
  	},
    q4: {
     txt: "When was the Declaration of Independence created?", 
     answers: ["1793","1774","1775","1776"],
  		correct: "1776",
     name: "q4",
-    img: "https://cdn.pixabay.com/photo/2012/10/26/00/52/declaration-of-independence-62972_1280.jpg"
+    img: "./assets/images/declaration.jpg"
  	},
    q5: {
     txt: "Are bananas veggies?", 
     answers: ["mmmm","yes","no","elaphant"],
  		correct: "no",
     name: "q5",
-    img: "https://cdn.pixabay.com/photo/2017/03/28/09/43/banana-2181470_960_720.jpg"
+    img: "./assets/images/banana.jpg"
  	  }
 	};
 
